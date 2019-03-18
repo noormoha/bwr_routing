@@ -38,6 +38,8 @@ public:
   void VerifyConsistency();
   // Get total remaining demand.
   double GetTotalRemainingDemand();
+  // Get edge utilization.
+  double GetEdgeUtilization(Edge* const edge) const;
 protected:
   int K_; // The maximum number of parallel paths per flow.
   double time_; // The current timeslot.
@@ -47,6 +49,9 @@ protected:
   // The time at which a flow was completed. When it happens, this flow is removed from all the lookup tables above.
   unordered_map<Flow*, double> flow_completion_times_;
   Topology* topo_; // The topology this router is associated with.
+  // Utilization data for routing purposes.
+  // Max: 1.0, Min: 0.0
+  unordered_map<Edge*, double> edge_utilization_;
 };
 
 } // namespace Network

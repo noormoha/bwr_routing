@@ -216,6 +216,7 @@ unordered_map<Path*, double> FlowRouter::NextSlot() {
 		}
 		assert(utilization[edge] < edge->GetCap() + 1E-6);
 		assert(utilization[edge] > -1E-6);
+		edge_utilization_[edge] = (utilization[edge] / edge->GetCap());
 	}
 	// Delete all completed flows.
 	vector<int> completed_flows;
@@ -288,6 +289,10 @@ double FlowRouter::GetTotalRemainingDemand() {
 		total_vol += pair.second->GetRemainingSize();
 	}
 	return total_vol;
+}
+
+double FlowRouter::GetEdgeUtilization(Edge* const edge) const {
+	return edge_utilization_.find(edge)->second;
 }
 
 } // namespace Network
