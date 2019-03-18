@@ -12,6 +12,9 @@ stats/
 *.o
 *.so
 bwr_router
+CMakeCache.txt
+MakeFile
+cmake_install.cmake
 
 # Packages #
 ############
