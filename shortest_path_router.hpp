@@ -25,6 +25,8 @@ public:
   void PostFlow(Flow flow);
 protected:
   TECHNIQUE tech_;
+  void ComputeKShortestPaths(Flow* new_flow, const int K, const TECHNIQUE tech);
+  double getEdgeCost(Edge* const edge, const TECHNIQUE tech);
 };
 
 } // namespace Network

@@ -32,9 +32,12 @@ void PrintStackTrace(int sigmessage) {
 namespace Network {
 vector<RouterFactory::RouterType> ListRouters() {
 	return { 
-		RouterFactory::RouterType::BWR_ROUTER_CAPTURE_K,
-	    RouterFactory::RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE,
-	    RouterFactory::RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO,
+		// RouterFactory::RouterType::BWR_ROUTER_CAPTURE_K,
+	 //    RouterFactory::RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE,
+	 //    RouterFactory::RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO,
+	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_HOPS,
+	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
+	    RouterFactory::RouterType::UTILIZATION_ROUTER,
 	};
 }
 
