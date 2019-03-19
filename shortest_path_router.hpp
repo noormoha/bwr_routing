@@ -18,7 +18,7 @@ namespace Network {
 class ShortestPathRouter : public FlowRouter {
 public:
   enum class TECHNIQUE {
-    BY_HOPS, BY_INVERSE_CAPACITY
+    BY_HOPS, BY_INVERSE_CAPACITY, VIRTUAL_FUNCTION_CALL
   };
   ShortestPathRouter(int K, Topology* topo, TECHNIQUE tech) : 
             FlowRouter(K, topo), tech_(tech) {}
@@ -27,6 +27,7 @@ protected:
   TECHNIQUE tech_;
   void ComputeKShortestPaths(Flow* new_flow, const int K, const TECHNIQUE tech);
   double getEdgeCost(Edge* const edge, const TECHNIQUE tech);
+  virtual double getEdgeCost(Edge* const edge);
 };
 
 } // namespace Network

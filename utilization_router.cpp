@@ -19,18 +19,12 @@ using namespace std;
 
 namespace Network {
 
+UtilizationRouter::UtilizationRouter(int K, Topology* topo) : 
+          power_base_(log(numeric_limits<double>::max() / MAX_PATH_LEN)),
+          ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::VIRTUAL_FUNCTION_CALL) {}
 
-void UtilizationRouter::PostFlow(Flow flow) {
-  // cout << "PostFlow()" << endl;
-
-  assert(flow.GetSrc() != flow.GetDst());
-  Flow* new_flow = new Flow(flow);
-  flows_map_[new_flow->GetID()] = new_flow;
-
-  // The actual routing algorithm.
-  
-
-  VerifyConsistency();
+double UtilizationRouter::getEdgeCost(Edge* const edge) {
+  return exp(GetEdgeUtilization(edge) * power_base_);
 }
 
 } // namespace Network

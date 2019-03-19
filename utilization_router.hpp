@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "flow_router.hpp"
+#include "shortest_path_router.hpp"
 #include "tools.hpp"
 #include "topology.hpp"
 
@@ -15,12 +16,14 @@ using namespace std;
 
 namespace Network {
 
-class UtilizationRouter : public FlowRouter {
+constexpr int MAX_PATH_LEN = 1000;
+
+class UtilizationRouter : public ShortestPathRouter {
 public:
-  UtilizationRouter(int K, Topology* topo) : 
-            FlowRouter(K, topo) {}
-  void PostFlow(Flow flow);
+	UtilizationRouter(int K, Topology* topo);
 protected:
+	double power_base_;
+	double getEdgeCost(Edge* const edge);
 };
 
 } // namespace Network

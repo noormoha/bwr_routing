@@ -93,9 +93,16 @@ double ShortestPathRouter::getEdgeCost(Edge* const edge, const TECHNIQUE tech) {
   switch(tech_) {
     case TECHNIQUE::BY_HOPS: return 1.0;
     case TECHNIQUE::BY_INVERSE_CAPACITY: return (1.0 / edge->GetCap());
+    case TECHNIQUE::VIRTUAL_FUNCTION_CALL: return getEdgeCost(edge);
     default:
       assert(false);
   }
+}
+
+// This function should not be called unless a child class reimplements it.
+double ShortestPathRouter::getEdgeCost(Edge* const edge) {
+  assert(false);
+  return 0;
 }
 
 void ShortestPathRouter::PostFlow(Flow flow) {
