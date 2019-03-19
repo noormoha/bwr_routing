@@ -63,5 +63,5 @@ int main() {
 	Network::RunAllTests();
 
 	// Run actual simulations.
-	Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
+	// Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
 }

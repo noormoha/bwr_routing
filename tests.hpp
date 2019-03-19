@@ -10,6 +10,7 @@
 
 #include "topology.hpp"
 #include "bwr_router.hpp"
+#include "shortest_path_router.hpp"
 #include "stochastic.hpp"
 
 using namespace std;
@@ -18,12 +19,19 @@ namespace Network {
 
 class BWRRouterTest : public BWRRouter {
 public:
-  BWRRouterTest(int K, Topology* topo, TECHNIQUE tech) : BWRRouter(K, topo, tech) {}
+  BWRRouterTest(int K, Topology* topo, BWRRouter::TECHNIQUE tech) : BWRRouter(K, topo, tech) {}
   void RunTests();
-private:
-  bool PathsEqual(Path* p1, Path* p2);
-  void PathsPrint(Path* p);
 };
+
+class ShortestPathRouterTest : public ShortestPathRouter {
+public:
+  ShortestPathRouterTest(int K, Topology* topo, ShortestPathRouter::TECHNIQUE tech) : ShortestPathRouter(K, topo, tech) {}
+  void RunTests();
+};
+
+bool PathsEqual(Path* p1, Path* p2);
+
+void PathsPrint(Path* p);
 
 Topology* BuildTopology();
 

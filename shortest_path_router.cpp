@@ -70,10 +70,10 @@ void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, cons
         new_path.path.push_back(next.second);
         new_path.visited.insert(next.second);
         new_path.weight += getEdgeCost(next.first, tech);
+        pq.push(new_path);
       }
     }
   }
-
   while(!sols.empty()) {
     const DijkPath& sol = sols.back();
     Path* new_path = new Path(new_flow->GetID());
