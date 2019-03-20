@@ -11,6 +11,7 @@
 #include "topology.hpp"
 #include "bwr_router.hpp"
 #include "shortest_path_router.hpp"
+#include "utilization_router.hpp"
 #include "stochastic.hpp"
 
 using namespace std;
@@ -26,6 +27,12 @@ public:
 class ShortestPathRouterTest : public ShortestPathRouter {
 public:
   ShortestPathRouterTest(int K, Topology* topo, ShortestPathRouter::TECHNIQUE tech) : ShortestPathRouter(K, topo, tech) {}
+  void RunTests();
+};
+
+class UtilizationRouterTest : public UtilizationRouter {
+public:
+  UtilizationRouterTest(int K, Topology* topo) : UtilizationRouter(K, topo) {}
   void RunTests();
 };
 

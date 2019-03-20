@@ -14,6 +14,8 @@ using namespace std;
 
 namespace Network {
 
+constexpr bool REPORT_ALL_PERCENTILES = false;
+
 Logger::Logger(string filename) : filename_(filename), file_(fopen(filename.c_str(), "w")) {
 	assert(file_ != NULL);
 	string data = "stats = [\r\n";
@@ -38,10 +40,16 @@ void Logger::Log(const Scenario& scenario, const int router_id, vector<double> c
 		scenario.sim_duration << ", " <<
 		hash<string>()(scenario.topo->GetName()) << ", " <<
 		router_id << ", ";
-	for(double completion_time : completion_times) {
-		ss << completion_time << ", ";
+	if(REPORT_ALL_PERCENTILES) {
+		for(double completion_time : completion_times) {
+			ss << completion_time << ", ";
+		}
+	} else {
+		ss << completion_times.back() << ", ";
+		ss << completion_times[static_cast<int>(completion_times.size() * 0.99)] << ", ";
+		ss << completion_times[static_cast<int>(completion_times.size() * 0.95)] << ", ";
 	}
-	ss << completion_times[completion_times.size() / 2] << ";";
+	ss << completion_times[static_cast<int>(completion_times.size() * 0.5)] << ";";
 	string data = ss.str() + "\r\n";
 	cout << "Logging " << data.size() << " bytes into " << filename_ << endl << endl;
 	int error = fputs(data.c_str(), file_);

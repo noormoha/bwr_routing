@@ -292,7 +292,8 @@ double FlowRouter::GetTotalRemainingDemand() {
 }
 
 double FlowRouter::GetEdgeUtilization(Edge* const edge) const {
-	return edge_utilization_.find(edge)->second;
+	return (edge_utilization_.find(edge) == edge_utilization_.end()) ?
+			0.0 : edge_utilization_.find(edge)->second;
 }
 
 } // namespace Network

@@ -6,7 +6,7 @@ sudo rm -f CMakeCache.txt
 sudo rm -f MakeFile
 sudo rm -f cmake_install.cmake
 
-CC=gcc CXX=g++ cmake -DCMAKE_BUILD_TYPE=Debug .
+CC=gcc CXX=g++ cmake -DCMAKE_BUILD_TYPE=Release .
 
 make
 

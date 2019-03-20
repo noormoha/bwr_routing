@@ -32,9 +32,9 @@ void PrintStackTrace(int sigmessage) {
 namespace Network {
 vector<RouterFactory::RouterType> ListRouters() {
 	return { 
-		// RouterFactory::RouterType::BWR_ROUTER_CAPTURE_K,
-	 //    RouterFactory::RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE,
-	 //    RouterFactory::RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO,
+		RouterFactory::RouterType::BWR_ROUTER_CAPTURE_K,
+	    RouterFactory::RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE,
+	    RouterFactory::RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_HOPS,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
 	    RouterFactory::RouterType::UTILIZATION_ROUTER,
@@ -44,9 +44,11 @@ vector<RouterFactory::RouterType> ListRouters() {
 vector<Scenario> BuildScenarios() {
 	return {
 		// Each row is: {int K_, double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_}
-		// {1, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 100.0, BuildTopologyGEANT2009()},
-		// {2, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 100.0, BuildTopologyGEANT2009()},
-		{3, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 100.0, BuildTopologyGEANT2009()},
+		// {1, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
+		// {2, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
+		{3, 0.01, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyGSCALE()},
+		{3, 0.1, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyGSCALE()},
+		{3, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyGSCALE()},
 	};
 }
 } // namespace Network
@@ -63,5 +65,5 @@ int main() {
 	Network::RunAllTests();
 
 	// Run actual simulations.
-	// Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
+	Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
 }

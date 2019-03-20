@@ -24,7 +24,9 @@ UtilizationRouter::UtilizationRouter(int K, Topology* topo) :
           ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::VIRTUAL_FUNCTION_CALL) {}
 
 double UtilizationRouter::getEdgeCost(Edge* const edge) {
-  return exp(GetEdgeUtilization(edge) * power_base_);
+	const double min_max_utilization_cost = exp(GetEdgeUtilization(edge) * power_base_);
+	// cout << "Util: " << GetEdgeUtilization(edge) << ", exp: " << min_max_utilization_cost << endl;
+	return min_max_utilization_cost;
 }
 
 } // namespace Network

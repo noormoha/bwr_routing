@@ -69,7 +69,10 @@ void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, cons
         DijkPath new_path = current;
         new_path.path.push_back(next.second);
         new_path.visited.insert(next.second);
-        new_path.weight += getEdgeCost(next.first, tech);
+        const double edge_cost = getEdgeCost(next.first, tech);
+        assert(numeric_limits<double>::max() - edge_cost > new_path.weight);
+        assert(numeric_limits<double>::max() - new_path.weight > edge_cost);
+        new_path.weight += edge_cost;
         pq.push(new_path);
       }
     }
