@@ -68,10 +68,12 @@ double BWRRouter::ComputePathWeight(const unordered_set<Path*>& incident_paths) 
 // This function routes the new flow according to the routing policy.
 // The incoming flow object has only its size_ and id_ fields set, the rest is empty.
 // There are two approaches that we can use:
-// Approach 1: select K_ minimum weight paths not considering the effect of this (self) flow.
+// Approach 1: select minimum weight paths not considering the effect of this (self) flow.
 // Approach 2: select as many paths as there are given the termination condition (no better 
-//  path than the worst yet found for a given number of hops), then start from the best path 
+//  path than the best yet found for a given number of hops), then start from the best path 
 //  in the heap and keep adding the paths until we get exactly K_ paths.
+// Approach 3: similar to Approach 2, but consider the effect of paths already selected. This
+//  means the paths are selected as they are found, so if a better path exists we my not see them.
 
 vector<Path> BWRRouter::ComputeBasePaths(Flow* new_flow, bool install_as_you_go) {
   Node* const src = new_flow->GetSrc();
@@ -94,7 +96,7 @@ vector<Path> BWRRouter::ComputeBasePaths(Flow* new_flow, bool install_as_you_go)
 
   // How many extra paths to search for? "pq_sols.size() < K_" determines how far we're willing to go!
   // This comes at the cost of computation: if we kill as soon as we have K_ paths we get shorter paths.
-  // However, we might miss some better longer paths. Let's search for K_ and 2*K_ and compare later!
+  // However, we might miss some better longer paths. Let's search for 10*K_ for now to limit the running time.
   while( !pq.empty() && 
         (pq_sols.size() < (install_as_you_go ? K_ : 10*K_)) ) {
     DijkPath current = pq.top();
