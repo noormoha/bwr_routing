@@ -96,7 +96,7 @@ vector<Path> BWRRouter::ComputeBasePaths(Flow* new_flow, bool install_as_you_go)
   // This comes at the cost of computation: if we kill as soon as we have K_ paths we get shorter paths.
   // However, we might miss some better longer paths. Let's search for K_ and 2*K_ and compare later!
   while( !pq.empty() && 
-        (pq_sols.size() < (install_as_you_go ? K_ : 100*K_)) ) {
+        (pq_sols.size() < (install_as_you_go ? K_ : 10*K_)) ) {
     DijkPath current = pq.top();
     pq.pop();
     if(install_as_you_go) {
