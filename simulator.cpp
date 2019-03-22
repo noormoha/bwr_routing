@@ -114,7 +114,7 @@ void RunSimulations(vector<Scenario> scenarios, vector<RouterFactory::RouterType
 				router->NextSlot();
 				if(router->getEpoch() >= next_time) {
 					cout.precision(5);
-					cout << (next_time < 10 ? "" : "]") << endl << "Remaining Flows: " << router->getRemainingFlows() << 
+					cout << (next_time < 10 ? "" : "]") << endl << "[ " << static_cast<int>(router_type) << " ] Rem Flows: " << router->getRemainingFlows() << 
 									"\tRemaining Vol: " << round(router->GetTotalRemainingDemand()) << 
 									"\tElapsed: " << round(router->getEpoch()) << 
 									"\tFlow Index: [ ";
