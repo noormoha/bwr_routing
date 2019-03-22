@@ -1,6 +1,6 @@
 # Don't track content of these folders
 CMakeFiles/
-stats/*
+stats/*.m
 
 
 # Compiled source #
