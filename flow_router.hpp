@@ -12,7 +12,7 @@
 namespace Network {
 
 // Timeslot duration in seconds.
-constexpr double TIMESLOT_DURATION = 0.1;
+constexpr double TIMESLOT_DURATION = 1;
 
 // FlowRouter is an interface that all routers need to implement. It offers 
 // a unique set of access points to the flow routing functions shared by
