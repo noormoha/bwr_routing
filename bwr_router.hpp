@@ -18,14 +18,15 @@ namespace Network {
 class BWRRouter : public FlowRouter {
 public:
   enum class TECHNIQUE {
-    CAPTURE_K, CAPTURE_AND_PRUNE, INSTALL_AS_YOU_GO
+    BWRH, BWRHF
   };
   BWRRouter(int K, Topology* topo, TECHNIQUE tech) : 
             FlowRouter(K, topo), tech_(tech) {}
   void PostFlow(Flow flow);
 protected:
   TECHNIQUE tech_;
-  vector<Path> ComputeBasePaths(Flow* new_flow, bool install_as_you_go);
+  void FindPathBWRH(Flow* new_flow);
+  void FindPathBWRHF(Flow* new_flow);
   void CaptureK(Flow* new_flow, vector<Path>& paths);
   void CaptureAndPrune(Flow* new_flow, vector<Path>& paths);
   double ComputePathWeight(const unordered_set<Path*>& incident_paths);

@@ -32,9 +32,8 @@ void PrintStackTrace(int sigmessage) {
 namespace Network {
 vector<RouterFactory::RouterType> ListRouters() {
 	return { 
-		RouterFactory::RouterType::BWR_ROUTER_CAPTURE_K,
-	    RouterFactory::RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE,
-	    RouterFactory::RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO,
+		RouterFactory::RouterType::BWR_ROUTER_BWRH,
+	    RouterFactory::RouterType::BWR_ROUTER_BWRHF,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_HOPS,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
 	    RouterFactory::RouterType::UTILIZATION_ROUTER,
@@ -46,11 +45,11 @@ vector<Scenario> BuildScenarios() {
 		// Each row is: {int K_, double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_}
 		// {1, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
 		// {2, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
-		{3, 1, 0.1, Stochastic::DistributionTypes::DIST_FB_CF, 2000.0, BuildTopologyCOGENT()},
-		{3, 2, 0.1, Stochastic::DistributionTypes::DIST_FB_CF, 2000.0, BuildTopologyCOGENT()},
-		{3, 3, 0.1, Stochastic::DistributionTypes::DIST_FB_CF, 2000.0, BuildTopologyCOGENT()},
-		{3, 4, 0.1, Stochastic::DistributionTypes::DIST_FB_CF, 2000.0, BuildTopologyCOGENT()},
-		{3, 5, 0.1, Stochastic::DistributionTypes::DIST_FB_CF, 2000.0, BuildTopologyCOGENT()},
+		{1, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
+		{2, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
+		{3, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
+		{4, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
+		{5, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
 		// {3, 0.6, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
 		// {3, 0.7, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
 		// {3, 0.8, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},

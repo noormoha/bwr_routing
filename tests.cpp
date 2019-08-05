@@ -401,12 +401,12 @@ void RunAllTests() {
   int K = 2;
 
   // BWRRouter Test
-  BWRRouterTest bwr_router_test(K, test_topo, BWRRouter::TECHNIQUE::CAPTURE_K);
+  BWRRouterTest bwr_router_test(K, test_topo, BWRRouter::TECHNIQUE::BWRH);
   // Test the RouteFlow function from the parent class.
   bwr_router_test.RunTests();
 
   // BWRRouter Test
-  BWRRouterTest bwr_router_test2(K, test_topo, BWRRouter::TECHNIQUE::INSTALL_AS_YOU_GO);
+  BWRRouterTest bwr_router_test2(K, test_topo, BWRRouter::TECHNIQUE::BWRHF);
   // Test the RouteFlow function from the parent class.
   bwr_router_test2.RunTests();
 

@@ -23,9 +23,8 @@ public:
   ~RouterFactory() = delete;
 
   enum class RouterType {
-    BWR_ROUTER_CAPTURE_K,
-    BWR_ROUTER_CAPTURE_AND_PRUNE,
-    BWR_ROUTER_INSTALL_AS_YOU_GO,
+    BWR_ROUTER_BWRH,
+    BWR_ROUTER_BWRHF,
     SHORTEST_PATH_ROUTER_BY_HOPS,
     SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
     UTILIZATION_ROUTER,
@@ -33,14 +32,11 @@ public:
 
   static FlowRouter* BuildRouter(RouterType router_type, int K, Topology* topo) {
     switch(router_type) {
-      case RouterType::BWR_ROUTER_CAPTURE_K:
-        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::CAPTURE_K);
+      case RouterType::BWR_ROUTER_BWRH:
+        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::BWRH);
         break;
-      case RouterType::BWR_ROUTER_CAPTURE_AND_PRUNE:
-        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::CAPTURE_AND_PRUNE);
-        break;
-      case RouterType::BWR_ROUTER_INSTALL_AS_YOU_GO:
-        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::INSTALL_AS_YOU_GO);
+      case RouterType::BWR_ROUTER_BWRHF:
+        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::BWRHF);
         break;
       case RouterType::SHORTEST_PATH_ROUTER_BY_HOPS:
         return new ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::BY_HOPS);

@@ -84,7 +84,7 @@ vector<tuple<double, double, int, int>> GenerateTraffic(Scenario& scenario) {
 	}
 	srand(GenerateTimestamp());
 	while((flow = dist.nextSample()).first < scenario.sim_duration) {
-		int src_dst_index = rand() % src_dst_pairs.size();
+		int src_dst_index = (rand() % (src_dst_pairs.size() / 100)) * 100;
 		auto& src_dst_pair = src_dst_pairs[src_dst_index];
 		traffic.push_back(make_tuple(flow.first, flow.second, src_dst_pair.first, src_dst_pair.second));
 		// cout << flow.first << ", " << flow.second << ", " << src_dst_pair.first << ", " << src_dst_pair.second << endl;
