@@ -30,22 +30,22 @@ public:
     UTILIZATION_ROUTER,
   };
 
-  static FlowRouter* BuildRouter(RouterType router_type, int K, Topology* topo) {
+  static FlowRouter* BuildRouter(RouterType router_type, Topology* topo) {
     switch(router_type) {
       case RouterType::BWR_ROUTER_BWRH:
-        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::BWRH);
+        return new BWRRouter(topo, BWRRouter::TECHNIQUE::BWRH);
         break;
       case RouterType::BWR_ROUTER_BWRHF:
-        return new BWRRouter(K, topo, BWRRouter::TECHNIQUE::BWRHF);
+        return new BWRRouter(topo, BWRRouter::TECHNIQUE::BWRHF);
         break;
       case RouterType::SHORTEST_PATH_ROUTER_BY_HOPS:
-        return new ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::BY_HOPS);
+        return new ShortestPathRouter(topo, ShortestPathRouter::TECHNIQUE::BY_HOPS);
         break;
       case RouterType::SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY:
-        return new ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::BY_INVERSE_CAPACITY);
+        return new ShortestPathRouter(topo, ShortestPathRouter::TECHNIQUE::BY_INVERSE_CAPACITY);
         break;
       case RouterType::UTILIZATION_ROUTER:
-        return new UtilizationRouter(K, topo);
+        return new UtilizationRouter(topo);
         break;
       default:
         assert(false);

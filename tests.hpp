@@ -20,19 +20,19 @@ namespace Network {
 
 class BWRRouterTest : public BWRRouter {
 public:
-  BWRRouterTest(int K, Topology* topo, BWRRouter::TECHNIQUE tech) : BWRRouter(K, topo, tech) {}
+  BWRRouterTest(Topology* topo, BWRRouter::TECHNIQUE tech) : BWRRouter(topo, tech) {}
   void RunTests();
 };
 
 class ShortestPathRouterTest : public ShortestPathRouter {
 public:
-  ShortestPathRouterTest(int K, Topology* topo, ShortestPathRouter::TECHNIQUE tech) : ShortestPathRouter(K, topo, tech) {}
+  ShortestPathRouterTest(Topology* topo, ShortestPathRouter::TECHNIQUE tech) : ShortestPathRouter(topo, tech) {}
   void RunTests();
 };
 
 class UtilizationRouterTest : public UtilizationRouter {
 public:
-  UtilizationRouterTest(int K, Topology* topo) : UtilizationRouter(K, topo) {}
+  UtilizationRouterTest(Topology* topo) : UtilizationRouter(topo) {}
   void RunTests();
 };
 

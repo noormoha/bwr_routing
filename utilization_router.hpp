@@ -20,7 +20,7 @@ constexpr int MAX_PATH_LEN = 1000;
 
 class UtilizationRouter : public ShortestPathRouter {
 public:
-	UtilizationRouter(int K, Topology* topo);
+	UtilizationRouter(Topology* topo);
 protected:
 	double power_base_;
 	double getEdgeCost(Edge* const edge);

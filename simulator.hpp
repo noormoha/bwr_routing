@@ -22,8 +22,6 @@ using namespace std;
 namespace Network {
 
 struct Scenario {
-  // Maximum number of parallel paths per flow.
-  int K;
   // Traffic parameters specified for Stochastic object to generate flows.
   double lambda;
   double mu;
@@ -32,8 +30,8 @@ struct Scenario {
   // Topology supplied to the FlowRouter object.
   Topology* topo;
 
-  Scenario(int K_, double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_) : 
-    K(K_), lambda(lambda_), mu(mu_), dist_type(dist_type_), sim_duration(sim_duration_), topo(topo_) {}
+  Scenario(double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_) : 
+    lambda(lambda_), mu(mu_), dist_type(dist_type_), sim_duration(sim_duration_), topo(topo_) {}
 };
 
 class Logger {

@@ -35,7 +35,7 @@ namespace {
   using DijkComp = function<bool(const DijkPath&, const DijkPath&)>;
 }
 
-void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, const TECHNIQUE tech) {
+void ShortestPathRouter::ComputeShortestPath(Flow* new_flow, const TECHNIQUE tech) {
   Node* const src = new_flow->GetSrc();
   Node* const dst = new_flow->GetDst();
 
@@ -45,7 +45,7 @@ void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, cons
   });
   pq.push(DijkPath({src}, 0.0));
 
-  vector<DijkPath> sols;
+  DijkPath sol({src}, 0.0);
   unordered_map<Node*, double> num_paths_by_node;
 
   while(!pq.empty()) {
@@ -54,13 +54,10 @@ void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, cons
     num_paths_by_node[current.path.back()]++;
     // End condition to be checked here ------------------
     if(current.path.back() == dst) {
-      sols.push_back(current);
-      if(sols.size() == K) {
-        break;
-      }
-      continue;
+      sol = current;
+      break;
     }
-    if(num_paths_by_node[current.path.back()] > K) {
+    if(num_paths_by_node[current.path.back()] > 1) {
       continue;
     }
     // Update the heap.
@@ -77,18 +74,14 @@ void ShortestPathRouter::ComputeKShortestPaths(Flow* new_flow, const int K, cons
       }
     }
   }
-  while(!sols.empty()) {
-    const DijkPath& sol = sols.back();
-    Path* new_path = new Path(new_flow->GetID());
-    for(int i = 1; i < sol.path.size(); i++) {
-      new_path->AddEdge(topo_->GetEdge(sol.path[i-1], sol.path[i]));
-    }
-    new_flow->AddPath(new_path);
-    paths_map_[new_path] = new_flow;
-    for(Edge* const edge : new_path->GetEdges()) {
-      edges_map_[edge].push_back(new_path);
-    }
-    sols.pop_back();
+  Path* new_path = new Path(new_flow->GetID());
+  for(int i = 1; i < sol.path.size(); i++) {
+    new_path->AddEdge(topo_->GetEdge(sol.path[i-1], sol.path[i]));
+  }
+  new_flow->AddPath(new_path);
+  paths_map_[new_path] = new_flow;
+  for(Edge* const edge : new_path->GetEdges()) {
+    edges_map_[edge].push_back(new_path);
   }
 }
 
@@ -115,7 +108,7 @@ void ShortestPathRouter::PostFlow(Flow flow) {
   Flow* new_flow = new Flow(flow);
   flows_map_[new_flow->GetID()] = new_flow;
 
-  ComputeKShortestPaths(new_flow, K_, tech_);
+  ComputeShortestPath(new_flow, tech_);
 
   VerifyConsistency();
 }

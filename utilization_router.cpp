@@ -19,9 +19,9 @@ using namespace std;
 
 namespace Network {
 
-UtilizationRouter::UtilizationRouter(int K, Topology* topo) : 
+UtilizationRouter::UtilizationRouter(Topology* topo) : 
           power_base_(log(numeric_limits<double>::max() / MAX_PATH_LEN)),
-          ShortestPathRouter(K, topo, ShortestPathRouter::TECHNIQUE::VIRTUAL_FUNCTION_CALL) {}
+          ShortestPathRouter(topo, ShortestPathRouter::TECHNIQUE::VIRTUAL_FUNCTION_CALL) {}
 
 double UtilizationRouter::getEdgeCost(Edge* const edge) {
 	const double min_max_utilization_cost = exp(GetEdgeUtilization(edge) * power_base_);

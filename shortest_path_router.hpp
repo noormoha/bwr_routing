@@ -20,12 +20,12 @@ public:
   enum class TECHNIQUE {
     BY_HOPS, BY_INVERSE_CAPACITY, VIRTUAL_FUNCTION_CALL
   };
-  ShortestPathRouter(int K, Topology* topo, TECHNIQUE tech) : 
-            FlowRouter(K, topo), tech_(tech) {}
+  ShortestPathRouter(Topology* topo, TECHNIQUE tech) : 
+            FlowRouter(topo), tech_(tech) {}
   void PostFlow(Flow flow);
 protected:
   TECHNIQUE tech_;
-  void ComputeKShortestPaths(Flow* new_flow, const int K, const TECHNIQUE tech);
+  void ComputeShortestPath(Flow* new_flow, const TECHNIQUE tech);
   double getEdgeCost(Edge* const edge, const TECHNIQUE tech);
   virtual double getEdgeCost(Edge* const edge);
 };

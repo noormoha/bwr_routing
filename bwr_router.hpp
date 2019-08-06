@@ -20,8 +20,8 @@ public:
   enum class TECHNIQUE {
     BWRH, BWRHF
   };
-  BWRRouter(int K, Topology* topo, TECHNIQUE tech) : 
-            FlowRouter(K, topo), tech_(tech) {}
+  BWRRouter(Topology* topo, TECHNIQUE tech) : 
+            FlowRouter(topo), tech_(tech) {}
   void PostFlow(Flow flow);
 protected:
   TECHNIQUE tech_;

@@ -19,7 +19,7 @@ constexpr double TIMESLOT_DURATION = 1;
 // all flow routing techniques.
 class FlowRouter {
 public:
-  FlowRouter(int K, Topology* topo) : K_(K), topo_(topo), time_(0.0) {}
+  FlowRouter(Topology* topo) : topo_(topo), time_(0.0) {}
   ~FlowRouter();
   // Implementted by the underlying routing policy.
   virtual void PostFlow(Flow flow) = 0;
@@ -41,7 +41,6 @@ public:
   // Get edge utilization.
   double GetEdgeUtilization(Edge* const edge) const;
 protected:
-  int K_; // The maximum number of parallel paths per flow.
   double time_; // The current timeslot.
   unordered_map<int, Flow*> flows_map_; // Flow id to flow pointer.
   unordered_map<Path*, Flow*> paths_map_; // Get the flow pointer associated with a path.

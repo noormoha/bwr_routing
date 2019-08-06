@@ -398,30 +398,29 @@ void RunAllTests() {
 
   // Create a topology.
   Topology* test_topo = BuildTopology();
-  int K = 2;
 
   // BWRRouter Test
-  BWRRouterTest bwr_router_test(K, test_topo, BWRRouter::TECHNIQUE::BWRH);
+  BWRRouterTest bwr_router_test(test_topo, BWRRouter::TECHNIQUE::BWRH);
   // Test the RouteFlow function from the parent class.
   bwr_router_test.RunTests();
 
   // BWRRouter Test
-  BWRRouterTest bwr_router_test2(K, test_topo, BWRRouter::TECHNIQUE::BWRHF);
+  BWRRouterTest bwr_router_test2(test_topo, BWRRouter::TECHNIQUE::BWRHF);
   // Test the RouteFlow function from the parent class.
   bwr_router_test2.RunTests();
 
   // ShortestPathRouter Test
-  ShortestPathRouterTest shortest_path_router_test(K, test_topo, ShortestPathRouter::TECHNIQUE::BY_HOPS);
+  ShortestPathRouterTest shortest_path_router_test(test_topo, ShortestPathRouter::TECHNIQUE::BY_HOPS);
   // Test the RouteFlow function from the parent class.
   shortest_path_router_test.RunTests();
 
   // ShortestPathRouter Test
-  ShortestPathRouterTest shortest_path_router_test2(K, test_topo, ShortestPathRouter::TECHNIQUE::BY_INVERSE_CAPACITY);
+  ShortestPathRouterTest shortest_path_router_test2(test_topo, ShortestPathRouter::TECHNIQUE::BY_INVERSE_CAPACITY);
   // Test the RouteFlow function from the parent class.
   shortest_path_router_test2.RunTests();
 
   // UtilizationRouter Test
-  UtilizationRouterTest utilization_router_test(K, test_topo);
+  UtilizationRouterTest utilization_router_test(test_topo);
   // Test the RouteFlow function from the parent class.
   utilization_router_test.RunTests();
 

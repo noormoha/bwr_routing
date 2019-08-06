@@ -44,16 +44,7 @@ vector<Scenario> BuildScenarios() {
 	return {
 		// Each row is: {int K_, double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_}
 		// {1, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
-		// {2, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
-		{1, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
-		{2, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
-		{3, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
-		{4, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
-		{5, 0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
-		// {3, 0.6, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
-		// {3, 0.7, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
-		// {3, 0.8, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
-		// {3, 0.9, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 2000.0, BuildTopologyUNINETT2011()},
+		{0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 4000.0, BuildTopologyUNINETT2011()},
 	};
 }
 } // namespace Network
@@ -70,5 +61,5 @@ int main() {
 	Network::RunAllTests();
 
 	// Run actual simulations.
-	Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
+	// Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());
 }

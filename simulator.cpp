@@ -33,7 +33,6 @@ void Logger::Log(const Scenario& scenario, const int router_id, vector<double> c
 	sort(completion_times.begin(), completion_times.end());
 	stringstream ss;
 	ss << 
-		scenario.K << ", " << 
 		scenario.lambda << ", " << 
 		scenario.mu << ", " << 
 		static_cast<int>(scenario.dist_type) << ", " << 
@@ -100,7 +99,7 @@ void RunSimulations(vector<Scenario> scenarios, vector<RouterFactory::RouterType
 		auto traffic = GenerateTraffic(scenario);
 		for(RouterFactory::RouterType router_type : routers) {
 			cout << "Starting router " << static_cast<int>(router_type) << " over " << traffic.size() << " flows..." << endl << endl;
-			FlowRouter* router = RouterFactory::BuildRouter(router_type, scenario.K, scenario.topo);
+			FlowRouter* router = RouterFactory::BuildRouter(router_type, scenario.topo);
 			int index = 0, next_time = 0;
 			while(index < traffic.size() || router->getRemainingFlows() > 0) {
 				while(index < traffic.size() && get<0>(traffic[index]) < router->getEpoch()) {
