@@ -170,8 +170,11 @@ void BWRRouter::FindPathBWRHF(Flow* new_flow) {
   // Wrapper around the generic shortest path callback.
   function<double(Edge*)> cost_func = [&](Edge* edge) {
     // Compute edge cost here.
-    double edge_cost = 0.0;
-    
+    double edge_cost = (new_flow->GetRemainingSize() / edge->GetCap());
+    for(Path* const path : edges_map_[edge]) {
+      Flow* const flow = paths_map_.find(path)->second;
+      edge_cost += (flow->GetRemainingSize() / edge->GetCap());
+    }
     return edge_cost;
   };
   Path* new_path = new Path(ComputeShortestPathGeneric(topo_, new_flow, cost_func));

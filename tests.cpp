@@ -102,7 +102,7 @@ void BWRRouterTest::RunTests() {
   }
   // Test 7: final flow to test rates.
   cout << "Test 7................................................" << endl;
-  Flow flow_4(3, topo_->GetNode(3), topo_->GetNode(2), 10);
+  Flow flow_4(3, topo_->GetNode(2), topo_->GetNode(3), 10000);
   PostFlow(flow_4);
   for(auto& pair : paths_map_) {
     cout << "Flow ID (" << pair.second->GetID() << "): ";
@@ -360,8 +360,8 @@ Topology* BuildTopology() {
   vector<vector<pair<int, double>>> adj_list = {
     {{1, 0.2}, {4, 1.0}},
     {{0, 0.2}, {2, 1.8}, {3, 0.5}, {4, 1.5}},
-    {{1, 1.8}, {3, 0.4}},
-    {{1, 0.5}, {2, 0.4}},
+    {{1, 1.8}, {3, 0.2}},
+    {{1, 0.5}, {2, 0.2}},
     {{0, 1}, {1, 1.5}}
   };
   for(int i = 0; i < Nodes; i++) {

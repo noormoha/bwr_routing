@@ -48,7 +48,12 @@ void Logger::Log(const Scenario& scenario, const int router_id, vector<double> c
 		ss << completion_times[static_cast<int>(completion_times.size() * 0.99)] << ", ";
 		ss << completion_times[static_cast<int>(completion_times.size() * 0.95)] << ", ";
 	}
-	ss << completion_times[static_cast<int>(completion_times.size() * 0.5)] << ";";
+	ss << completion_times[static_cast<int>(completion_times.size() * 0.5)] << ", ";
+	double avg_completion_times = 0.0;
+	for(double completion_time : completion_times) {
+		avg_completion_times += completion_time / completion_times.size();
+	}
+	ss << avg_completion_times << ";";
 	string data = ss.str() + "\r\n";
 	cout << "Logging " << data.size() << " bytes into " << filename_ << endl << endl;
 	int error = fputs(data.c_str(), file_);
