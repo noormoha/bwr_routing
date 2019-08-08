@@ -7,6 +7,7 @@
 
 #include <unordered_set>
 #include <vector>
+#include <functional>
 
 #include "topology.hpp"
 
@@ -50,6 +51,9 @@ private:
   double completed_;
   vector<Path*> paths_;
 };
+
+// Generic shortest path function, can be used by anyone
+Path ComputeShortestPathGeneric(Topology* topo, Flow* new_flow, function<double(Edge*)> cost_func);
 
 } // namespace Network
 

@@ -29,8 +29,9 @@ protected:
   void FindPathBWRHF(Flow* new_flow);
   void CaptureK(Flow* new_flow, vector<Path>& paths);
   void CaptureAndPrune(Flow* new_flow, vector<Path>& paths);
-  double ComputePathWeight(const unordered_set<Path*>& incident_paths);
-  double ComputePathWeight(const Path* path);
+  double ComputePathWeight(const unordered_set<Path*>& incident_paths, 
+    const unordered_set<Edge*>& path, const Flow* new_flow);
+  // double ComputePathWeight(const Path* path);
   void InstallPath(Flow* new_flow, const Path& path);
 };
 
