@@ -23,7 +23,7 @@ public:
   ~RouterFactory() = delete;
 
   enum class RouterType {
-    BWR_ROUTER_BWRH,
+    BWR_ROUTER_BWROPT,
     BWR_ROUTER_BWRHF,
     SHORTEST_PATH_ROUTER_BY_HOPS,
     SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
@@ -32,8 +32,8 @@ public:
 
   static FlowRouter* BuildRouter(RouterType router_type, Topology* topo) {
     switch(router_type) {
-      case RouterType::BWR_ROUTER_BWRH:
-        return new BWRRouter(topo, BWRRouter::TECHNIQUE::BWRH);
+      case RouterType::BWR_ROUTER_BWROPT:
+        return new BWRRouter(topo, BWRRouter::TECHNIQUE::BWROPT);
         break;
       case RouterType::BWR_ROUTER_BWRHF:
         return new BWRRouter(topo, BWRRouter::TECHNIQUE::BWRHF);

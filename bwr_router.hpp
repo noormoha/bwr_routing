@@ -18,14 +18,14 @@ namespace Network {
 class BWRRouter : public FlowRouter {
 public:
   enum class TECHNIQUE {
-    BWRH, BWRHF
+    BWROPT, BWRHF
   };
   BWRRouter(Topology* topo, TECHNIQUE tech) : 
             FlowRouter(topo), tech_(tech) {}
   void PostFlow(Flow flow);
 protected:
   TECHNIQUE tech_;
-  void FindPathBWRH(Flow* new_flow);
+  void FindPathBWROpt(Flow* new_flow);
   void FindPathBWRHF(Flow* new_flow);
   void CaptureK(Flow* new_flow, vector<Path>& paths);
   void CaptureAndPrune(Flow* new_flow, vector<Path>& paths);

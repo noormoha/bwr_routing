@@ -4,6 +4,7 @@
 
 #include <queue>
 #include <unordered_set>
+#include <set>
 #include <unordered_map>
 #include <vector>
 #include <functional>
@@ -36,17 +37,6 @@ namespace {
   using DijkComp = function<bool(const DijkPath&, const DijkPath&)>;
 }
 
-// Get the weight for a given path by first computing all incident paths.
-// double BWRRouter::ComputePathWeight(const Path* path) {
-//   unordered_set<Path*> incident_paths;
-//   for(Edge* const edge : path->GetEdges()) {
-//     for(Path* incident_path : edges_map_[edge]) {
-//       incident_paths.insert(incident_path);
-//     }
-//   }
-//   return ComputePathWeight(incident_paths);
-// }
-
 // Get the weight for a path by using paths incident to it.
 double BWRRouter::ComputePathWeight(const unordered_set<Path*>& incident_paths, 
                                     const unordered_set<Edge*>& path,
@@ -58,8 +48,10 @@ double BWRRouter::ComputePathWeight(const unordered_set<Path*>& incident_paths,
       flow_to_bottleneck[flow] = numeric_limits<double>::max();
     }
     vector<Edge*> common_edges(path.size());
-    auto it = set_intersection(path.begin(), path.end(),
-      incident_path->GetEdgesSet().begin(), incident_path->GetEdgesSet().end(),
+    set<Edge*> sorted_path(path.begin(), path.end()), 
+               sorted_incident_path(incident_path->GetEdgesSet().begin(), incident_path->GetEdgesSet().end());
+    auto it = set_intersection(sorted_path.begin(), sorted_path.end(),
+      sorted_incident_path.begin(), sorted_incident_path.end(),
       common_edges.begin());
     common_edges.resize(it-common_edges.begin());
     // There has to be common edges.
@@ -84,17 +76,16 @@ double BWRRouter::ComputePathWeight(const unordered_set<Path*>& incident_paths,
   return next_weight;
 }
 
-// This function find a path using the BWRH method.
+// This function find a path using the BWR optimal method (exhastive search but using a heap which makes it run faster).
 // Please see the research paper for more info.
 // The incoming flow object has only its size_ and id_ fields set, the rest is empty.
-
-void BWRRouter::FindPathBWRH(Flow* new_flow) {
+void BWRRouter::FindPathBWROpt(Flow* new_flow) {
   Node* const src = new_flow->GetSrc();
   Node* const dst = new_flow->GetDst();
 
   priority_queue<DijkPath, vector<DijkPath>, DijkComp> pq(
     [&](const DijkPath& path1, const DijkPath& path2) {
-      return path1.path.size() > path2.path.size();
+      return path1.weight > path2.weight;
   });
   pq.push(DijkPath({}, {src}, {}, 0.0));
 
@@ -103,33 +94,13 @@ void BWRRouter::FindPathBWRH(Flow* new_flow) {
   
   unordered_map<int, vector<DijkPath>> sol_by_hops;
 
-  while( !pq.empty() && pq_sol.path.size() < 2 ) {
+  while( !pq.empty() ) {
     DijkPath current = pq.top();
     pq.pop();
-    // End condition to be checked here ------------------
-    // That is, we do not see any improvement in the optimal solution for additional hops.
-    if(pq_sol.path.size() > 1 && current.path.size() > 1) {
-      // If no new solution for these number of hops kill the loop.
-      if(sol_by_hops[current.path.size()-1].empty() && 
-         sol_by_hops[current.path.size()].empty()) {
-        // {
-        //   cout << "Terminated at: ";
-        //   for(Node* node : current.path) {
-        //     cout << node->GetID() << "-";
-        //   }
-        //   cout << "?" << endl;
-        // }
-        break;
-      }
-    }
     // If the path ends at the destination it is complete.
     if(current.path.back() == dst) {
-      // This path is complete.
-      if(pq_sol.path.size() < 2 || current.weight < pq_sol.weight) {
-        pq_sol = current;
-        sol_by_hops[current.path.size()].push_back(current);
-      }
-      continue;
+      pq_sol = current;
+      break;
     }
     // Update the heap.
     for(const pair<Edge* const, Node*>& next : topo_->GetAdjList(current.path.back())) {
@@ -140,22 +111,12 @@ void BWRRouter::FindPathBWRH(Flow* new_flow) {
           incident_paths.insert(path);
         }
         double next_weight = ComputePathWeight(incident_paths, current.path_edges, new_flow);
-        // {
-        //   cout << next_weight << " for path: ";
-        //   for(Node* node : current.path) {
-        //     cout << node->GetID() << "-";
-        //   }
-        //   cout << next.second->GetID() << endl;
-        // }
-        // This acts like branch-and-cut: if the solution is already bad, cut it off.
-        if(pq_sol.path.size() < 2 || next_weight < pq_sol.weight) {
-          unordered_set<Edge*> next_path_edges(current.path_edges);
-          next_path_edges.insert(next.first);
-          vector<Node*> next_path(current.path);
-          next_path.push_back(next.second);
-          DijkPath next_dijk(next_path_edges, next_path, incident_paths, next_weight);
-          pq.push(next_dijk);
-        }
+        unordered_set<Edge*> next_path_edges(current.path_edges);
+        next_path_edges.insert(next.first);
+        vector<Node*> next_path(current.path);
+        next_path.push_back(next.second);
+        DijkPath next_dijk(next_path_edges, next_path, incident_paths, next_weight);
+        pq.push(next_dijk);
       }
     }
   }
@@ -166,6 +127,7 @@ void BWRRouter::FindPathBWRH(Flow* new_flow) {
   InstallPath(new_flow, output);
 }
 
+// This implements the BWRHF heuristic that is basically Dijkstra with weights assigned according to flow sizes.
 void BWRRouter::FindPathBWRHF(Flow* new_flow) {
   // Wrapper around the generic shortest path callback.
   function<double(Edge*)> cost_func = [&](Edge* edge) {
@@ -195,15 +157,14 @@ void BWRRouter::InstallPath(Flow* new_flow, const Path& path) {
 }
 
 void BWRRouter::PostFlow(Flow flow) {
-  // cout << "PostFlow()" << endl;
-
   assert(flow.GetSrc() != flow.GetDst());
+
   Flow* new_flow = new Flow(flow);
   flows_map_[new_flow->GetID()] = new_flow;
 
   switch(tech_) {
-    case TECHNIQUE::BWRH: {
-        FindPathBWRH(new_flow);
+    case TECHNIQUE::BWROPT: {
+        FindPathBWROpt(new_flow);
         break;
       }
     case TECHNIQUE::BWRHF: {

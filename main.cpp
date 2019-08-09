@@ -32,7 +32,7 @@ void PrintStackTrace(int sigmessage) {
 namespace Network {
 vector<RouterFactory::RouterType> ListRouters() {
 	return { 
-		RouterFactory::RouterType::BWR_ROUTER_BWRH,
+		RouterFactory::RouterType::BWR_ROUTER_BWROPT,
 	    RouterFactory::RouterType::BWR_ROUTER_BWRHF,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_HOPS,
 	    RouterFactory::RouterType::SHORTEST_PATH_ROUTER_BY_INVERSE_CAPACITY,
@@ -44,7 +44,7 @@ vector<Scenario> BuildScenarios() {
 	return {
 		// Each row is: {double lambda_, double mu_, Stochastic::DistributionTypes dist_type_, double sim_duration_, Topology* topo_}
 		// {1, 1.0, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 500.0, BuildTopologyGSCALE()},
-		{0.2, 0.2, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 400.0, BuildTopologyUNINETT2011()},
+		{0.2, 0.1, Stochastic::DistributionTypes::DIST_EXPONENTIAL, 1000.0, BuildTopologyUNINETT2011()},
 	};
 }
 } // namespace Network
@@ -58,7 +58,7 @@ int main() {
 
 	// TODO: maybe use Google Test framework to make tests more readable.
 	// This runs some basic tests to make sure nothing is broken.
-	Network::RunAllTests();
+	// Network::RunAllTests();
 
 	// Run actual simulations.
 	Network::RunSimulations(Network::BuildScenarios(), Network::ListRouters());

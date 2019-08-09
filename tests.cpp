@@ -400,7 +400,7 @@ void RunAllTests() {
   Topology* test_topo = BuildTopology();
 
   // BWRRouter Test
-  BWRRouterTest bwr_router_test(test_topo, BWRRouter::TECHNIQUE::BWRH);
+  BWRRouterTest bwr_router_test(test_topo, BWRRouter::TECHNIQUE::BWROPT);
   // Test the RouteFlow function from the parent class.
   bwr_router_test.RunTests();
 
